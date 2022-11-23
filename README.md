@@ -1,6 +1,255 @@
-# Getting Started with UPAg App
+#### Topics
+
+ > [Getting Started](#getting-started-with-upag-app)\
+ > [Initial Project Setup](#initial-project-setup)\
+ > [Important Package(s) used in the project](#important-packages-used-in-the-project)\
+ > [Available Scripts](#available-scripts)\
+ > [Folder Strcuture of the project](#folder-structure-of-the-project)\
+ > [Learn More](#learn-more)
+
+# Getting Started with UPAG App
 
 This project is built on React and uses CRACO for managing the configuration, Mobx for state management solution and Material UI react library for material design. 
+
+
+## Initial Project Setup
+
+### `yarn Install`
+Installs all the packages mentioned in the package.json without having to install every package individually.
+
+## Important Package(s) used in the project
+### `1. CRACO`
+
+CRACO stands for Create-React-App Configuration Override. It is implemented as an easy way to override create-react-app configuration without mastering Webpack or ejecting
+
+### How to install CRACO in Project
+
+Install the latest version of the package from npm as a dev dependency:
+
+```npm i -D @craco/craco```
+
+Create a CRACO configuration file in your project's root directory and configure:
+
+ ```bash
+ my-app
+  ├── node_modules
++ ├── craco.config.js
+  └── package.json
+```
+Update the existing calls to react-scripts in the scripts section of your package.json to use the craco CLI:
+
+```bash 
+"scripts": {
+-  "start": "react-scripts start"
++  "start": "craco start"
+-  "build": "react-scripts build"
++  "build": "craco build"
+-  "test": "react-scripts test"
++  "test": "craco test"
+}
+```
+visit [craco.js.org](https://craco.js.org/) to learn more
+
+### `2. Material UI`
+
+Material UI is an open-source React component library that implements Google's Material Design. It includes a comprehensive collection of prebuilt components that are ready for use in production right out of the box.
+
+### How to install Material UI in Project
+
+```bash
+npm install @mui/material @mui/styled-engine-sc styled-components
+                               or 
+yarn add @mui/material @mui/styled-engine-sc styled-components 
+ ```
+ 
+ visit [documentation](https://mui.com/material-ui/getting-started/installation/) to learn more
+ 
+### Theme customization configurations
+
+If you wish to customize the theme, you need to use the ThemeProvider component in order to inject a theme into your application.
+
+```bash
+import { createTheme } from '@mui/material/styles';
+import { green, purple } from '@mui/material/colors';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: purple[500],
+    },
+    secondary: {
+      main: green[500],
+    },
+  },
+});
+```
+ visit [documentation](https://mui.com/material-ui/customization/theming/) to learn more
+
+### `3. fernet`
+
+Fernet is an implementation of symmetric (also known as “secret key”) authenticated cryptography. Fernet guarantees that a message encrypted using it cannot be manipulated or read without the key. 
+
+### How to install fernet in Project
+
+```bash
+npm i fernet
+```
+### Usage
+
+Token.prototype.encode
+```bash
+//Have to include time and iv to make it deterministic.
+//Normally time would default to (new Date()) and iv to something random.
+var token = new fernet.Token({
+  secret: secret,
+  time: Date.parse(1),
+  iv: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+})
+token.encode("Message")
+```
+
+Token.prototype.decode
+
+```bash
+var token = new fernet.Token({
+  secret: secret,
+  token: 'gAAAAABSO_yhAAECAwQFBgcICQoLDA0OD1PGoFV6wgWZG6AOBfQqevwJT2qKtCZ0EjKy1_TvyxTseR_3ebIF6Ph-xa2QT_tEvg==',
+  ttl: 0
+})
+token.decode();
+```
+
+
+
+visit [documentation](https://www.npmjs.com/package/fernet) to learn more
+
+### `4. i18next`
+
+i18next is a popular internationalization library which uses components to render or re-render the translated content of your application once users request a change of language. It provides you with a complete solution to localize your product from web to mobile and desktop.
+
+### How to install i18next in Project
+
+```bash
+npm install react-i18next i18next --save
+
+```
+
+configuration settings 
+
+```bash
+i18next.init({
+  fallbackLng: 'en',
+  ns: ['file1', 'file2'],
+  defaultNS: 'file1',
+  debug: true
+}, (err, t) => {
+  if (err) return console.log('something went wrong loading', err);
+  t('key'); // -> same as i18next.t
+});
+
+// with only callback
+i18next.init((err, t) => {
+  if (err) return console.log('something went wrong loading', err);
+  t('key'); // -> same as i18next.t
+});
+
+// using Promises
+i18next
+  .init({ /* options */ })
+  .then(function(t) { t('key'); });
+```
+
+visit [documentation](https://react.i18next.com/) to learn more
+
+### `5. jwt-decode`
+jwt-decode is a small browser library that helps decoding JWTs token which are Base64Url encoded.
+
+### How to install jwt-decode in Project
+
+```bash 
+npm i jwt-decode
+
+
+import jwt_decode from "jwt-decode";
+ 
+var token = "eyJ0eXAiO.../// jwt token";
+var decoded = jwt_decode(token);
+```
+visit [documentation](https://jwt.io/) to learn more
+
+### `6. lodash`
+
+Lodash makes JavaScript easier by taking the hassle out of working with arrays, numbers, objects, strings, etc.
+Lodash’s modular methods are great for:
+
+Iterating arrays, objects, & strings
+Manipulating & testing values
+Creating composite functions
+
+### How to install lodash in Project
+
+```bash
+$ npm i -g npm
+$ npm i --save lodash
+```
+
+visit [documentation](https://lodash.com/docs/4.17.15) to learn more
+
+### `7. mobx`
+
+MobX is a simple, scalable, boilerplate-free state management solution. It allows you to manage application state outside of any UI framework, making the code decoupled, portable and, above all, easy to test. It implements observable values, which are essentially using the publish/subscribe pattern
+
+### How to install mobx in project
+
+```bash
+Yarn: yarn add mobx
+
+NPM: npm install --save mobx
+```
+
+React Integration:
+
+```bash
+import { observer } from "mobx-react-lite" // Or "mobx-react".
+
+const MyComponent = observer(props => ReactElement)
+```
+
+
+visit [documentation](https://mobx.js.org/about-this-documentation.html) to learn more
+
+### `8. tailwindcss`
+
+Tailwind CSS makes it quicker to write and maintain the code of your application. By using this utility-first framework, you don't have to write custom CSS to style your application. Instead, you can use utility classes to control the padding, margin, color, font, shadow, and more of your application.
+
+
+### How to install Tailwind in Project
+
+1. Install Tailwind CSS by using following command
+```bash
+> npm install -D tailwindcss
+> npx tailwindcss init
+> And create new file as tailwind.config.js file.
+```
+2. configure your template paths inside tailwind.config.js file like as
+
+```bash
+module.exports = {
+content: ["./src/**/*.{html,js}"],
+theme: {
+extend: {},
+},
+plugins: [],
+}
+```
+3. Add the Tailwind directives to your CSS inside your project in main css file
+```bash
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+visit [documentation](https://tailwindcss.com/docs/installation) to learn more 
 
 ## Available Scripts
 
@@ -30,31 +279,6 @@ Your app is ready to be deployed!
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
 
-# How to integrate Tailwind in Project
-
-1. Install Tailwind CSS by using following command
-```bash
-> npm install -D tailwindcss
-> npx tailwindcss init
-> And create new file as tailwind.config.js file.
-```
-2. configure your template paths inside tailwind.config.js file like as
-
-```bash
-module.exports = {
-content: ["./src/**/*.{html,js}"],
-theme: {
-extend: {},
-},
-plugins: [],
-}
-```
-3. Add the Tailwind directives to your CSS inside your project in main css file
-```bash
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-```
 # Folder Structure of the project
 
 ### The UPAg App has the following structure:
